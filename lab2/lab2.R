@@ -1,6 +1,3 @@
-
-
-# Functions to read in the CSV table that contains all of the raw data.
 # Before running these functions, make sure the file "all-data.csv" is
 # in the local directory.
 # Also, within the R environment, change the working directory to the directory
@@ -100,7 +97,7 @@ int92clockSD <- sd(int92.dat$clock)
 int92voltageSD <- sd(int92.dat$voltage)
 int92L1icacheSD <- sd(int92.dat$L1icache)
 
-print('SD')
+print('MEAN')
 print(int92clockSD)
 print(int92voltageSD)
 print(int92L1icacheSD)
@@ -110,8 +107,7 @@ print(int92L1icacheSD)
 int92clockMin <- min(int92.dat$clock)
 int92voltageMin <- min(int92.dat$voltage)
 int92L1icacheMin <- min(int92.dat$L1icache)
-
-print('MIN')
+ 
 print(int92clockMin)
 print(int92voltageMin)
 print(int92L1icacheMin)
@@ -122,7 +118,6 @@ int92clockMax <- max(int92.dat$clock)
 int92voltageMax <- max(int92.dat$voltage)
 int92L1icacheMax <- max(int92.dat$L1icache)
  
-print('MAX')
 print(int92clockMax)
 print(int92voltageMax)
 print(int92L1icacheMax)
