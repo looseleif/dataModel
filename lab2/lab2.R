@@ -81,6 +81,31 @@ int06.dat <- extract_data("Int2006")
 fp06.dat <- extract_data("Fp2006")
 
 # TESTING INTEL92 ENVIRONMENT
+print("### ### ###")
+print("### INTEL92")
+print("### ### ###")
+
+
+head(int92.dat$clock)
+table(int92.dat$clock)
+summary(int92.dat$clock)
+length(int92.dat$clock)
+sum(is.na(int92.dat$clock))
+print('---')
+
+head(int92.dat$voltage)
+table(int92.dat$voltage)
+summary(int92.dat$voltage)
+length(int92.dat$voltage)
+sum(is.na(int92.dat$voltage))
+print('---')
+
+head(int92.dat$L1icache)
+table(int92.dat$L1icache)
+summary(int92.dat$L1icache)
+length(int92.dat$L1icache)
+sum(is.na(int92.dat$L1icache))
+print('---')
 
 int92clockMean <- mean(int92.dat$clock, na.rm=TRUE)
 int92voltageMean <- mean(int92.dat$voltage, na.rm=TRUE)
@@ -123,6 +148,142 @@ print('MAX')
 print(int92clockMax)
 print(int92voltageMax)
 print(int92L1icacheMax)
+
+# TESTING INTEL00 ENVIRONMENT
+print("### ### ###")
+print("### INTEL00")
+print("### ### ###")
+
+head(int00.dat$clock)
+table(int00.dat$clock)
+summary(int00.dat$clock)
+length(int00.dat$clock)
+sum(is.na(int00.dat$clock))
+print('---')
+
+head(int00.dat$voltage)
+table(int00.dat$voltage)
+summary(int00.dat$voltage)
+length(int00.dat$voltage)
+sum(is.na(int00.dat$voltage))
+print('---')
+
+head(int00.dat$L1icache)
+table(int00.dat$L1icache)
+summary(int00.dat$L1icache)
+length(int00.dat$L1icache)
+sum(is.na(int00.dat$L1icache))
+print('---')
+
+int00clockMean <- mean(int00.dat$clock, na.rm=TRUE)
+int00voltageMean <- mean(int00.dat$voltage, na.rm=TRUE)
+int00L1icacheMean <- mean(int00.dat$L1icache, na.rm=TRUE)
+
+print('MEAN')
+print(int00clockMean)
+print(int00voltageMean)
+print(int00L1icacheMean)
+
+# --- --- --- --- ---
+
+int00clockSD <- sd(int00.dat$clock, na.rm=TRUE)
+int00voltageSD <- sd(int00.dat$voltage, na.rm=TRUE)
+int00L1icacheSD <- sd(int00.dat$L1icache, na.rm=TRUE)
+
+print('SD')
+print(int00clockSD)
+print(int00voltageSD)
+print(int00L1icacheSD)
+
+# --- --- --- --- ---
+
+int00clockMin <- min(int00.dat$clock, na.rm=TRUE)
+int00voltageMin <- min(int00.dat$voltage, na.rm=TRUE)
+int00L1icacheMin <- min(int00.dat$L1icache, na.rm=TRUE)
+
+print('MIN')
+print(int00clockMin)
+print(int00voltageMin)
+print(int00L1icacheMin)
+
+# --- --- --- --- ---
+
+int00clockMax <- max(int00.dat$clock, na.rm=TRUE)
+int00voltageMax <- max(int00.dat$voltage, na.rm=TRUE)
+int00L1icacheMax <- max(int00.dat$L1icache, na.rm=TRUE)
+
+print('MAX')
+print(int00clockMax)
+print(int00voltageMax)
+print(int00L1icacheMax)
+
+# TESTING INTEL00 ENVIRONMENT
+print("### ### ###")
+print("### INTEL06")
+print("### ### ###")
+
+head(int06.dat$clock)
+table(int06.dat$clock)
+summary(int06.dat$clock)
+length(int06.dat$clock)
+sum(is.na(int06.dat$clock))
+print('---')
+
+head(int06.dat$voltage)
+table(int06.dat$voltage)
+summary(int06.dat$voltage)
+length(int06.dat$voltage)
+sum(is.na(int06.dat$voltage))
+print('---')
+
+head(int06.dat$L1icache)
+table(int06.dat$L1icache)
+summary(int06.dat$L1icache)
+length(int06.dat$L1icache)
+sum(is.na(int06.dat$L1icache))
+print('---')
+
+int06clockMean <- mean(int06.dat$clock, na.rm=TRUE)
+int06voltageMean <- mean(int06.dat$voltage, na.rm=TRUE)
+int06L1icacheMean <- mean(int06.dat$L1icache, na.rm=TRUE)
+
+print('MEAN')
+print(int06clockMean)
+print(int06voltageMean)
+print(int06L1icacheMean)
+
+# --- --- --- --- ---
+
+int06clockSD <- sd(int06.dat$clock, na.rm=TRUE)
+int06voltageSD <- sd(int06.dat$voltage, na.rm=TRUE)
+int06L1icacheSD <- sd(int06.dat$L1icache, na.rm=TRUE)
+
+print('SD')
+print(int06clockSD)
+print(int06voltageSD)
+print(int06L1icacheSD)
+
+# --- --- --- --- ---
+
+int06clockMin <- min(int06.dat$clock, na.rm=TRUE)
+int06voltageMin <- min(int06.dat$voltage, na.rm=TRUE)
+int06L1icacheMin <- min(int06.dat$L1icache, na.rm=TRUE)
+
+print('MIN')
+print(int06clockMin)
+print(int06voltageMin)
+print(int06L1icacheMin)
+
+# --- --- --- --- ---
+
+int06clockMax <- max(int06.dat$clock, na.rm=TRUE)
+int06voltageMax <- max(int06.dat$voltage, na.rm=TRUE)
+int06L1icacheMax <- max(int06.dat$L1icache, na.rm=TRUE)
+
+print('MAX')
+print(int06clockMax)
+print(int06voltageMax)
+print(int06L1icacheMax)
 
 
 
