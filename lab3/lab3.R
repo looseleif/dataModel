@@ -79,3 +79,28 @@ int00.dat <- extract_data("Int2000")
 fp00.dat <- extract_data("Fp2000")
 int06.dat <- extract_data("Int2006")
 fp06.dat <- extract_data("Fp2006")
+
+#jpeg('int95.jpg')
+plot(int95.dat[,"clock"],
+int95.dat[,"nperf"], main="Int1995",
+xlab="Clock", ylab="Normalized Performance")
+
+int95.lm <- lm(int95.dat$nperf ~ int95.dat$clock)
+par(mfrow=c(2,2))
+plot(int95.lm)
+
+
+# jpeg('rplot2.jpg')
+# plot(int06.dat[,"clock"],
+# int06.dat[,"nperf"], main="Int2006",
+# xlab="Clock", ylab="Normalized Performance")
+
+# jpeg('rplot3.jpg')
+# plot(fp95.dat[,"clock"],
+# fp95.dat[,"nperf"], main="Fp1995",
+# xlab="Clock", ylab="Normalized Performance")
+
+# jpeg('rplot4.jpg')
+# plot(fp06.dat[,"clock"],
+# fp06.dat[,"nperf"], main="Fp2006",
+# xlab="Clock", ylab="Normalized Performance")
