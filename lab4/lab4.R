@@ -28,9 +28,6 @@ return(processors[ix,y])
 }
 ################################################################
 
-
-
-
 ################################################################
 # This function extracts the interesting data columns for the given benchmark
 # program and returns a dataframe with these columns.
@@ -82,14 +79,46 @@ fp06.dat <- extract_data("Fp2006")
 
 # Begin Lab 4 Content
 
-jpeg("lab4_array.jpg")
-pairs(int00.dat,gap=0.5)
+#jpeg("int95.jpeg")
+#plot(pairs(int95.dat, gap=0.5))
 
-int95.lm <- lm(int95.dat$nperf ~ int95.dat$clock + 
-								 int95.dat$dieSize + 
-								 int95.dat$channel + 
-								 int95.dat$L1icache);
+# int95.lm <- lm(int95.dat$nperf ~ int95.dat$clock + 
+# 								 int95.dat$transistor +
+# 								 int95.dat$dieSize + 
+# 								 int95.dat$channel
+# 								 );
 
-								 # removed L3 L2 L1d threads cores voltage featureSize -caused transistor to drop-> transistor
+# summary(int95.lm)
 
-summary(int95.lm)
+# int06.lm <- lm(int06.dat$nperf ~ int06.dat$clock + 
+# 								 int06.dat$threads +
+# 								 int06.dat$cores +
+# 								 int06.dat$TDP +
+# 								 int06.dat$channel + 
+# 								 int06.dat$FO4delay +
+# 								 int06.dat$L1icache +
+# 								 int06.dat$L2cache +
+# 								 int06.dat$L3cache
+# 								 );
+
+# summary(int06.lm)
+
+# fp95.lm <- lm(fp95.dat$nperf ~  fp95.dat$TDP +
+# 								fp95.dat$transistor +
+# 								fp95.dat$dieSize +
+# 								fp95.dat$voltage 
+# 								);
+
+# summary(fp95.lm)
+
+fp06.lm <- lm(fp06.dat$nperf ~ fp06.dat$clock + 
+								 fp06.dat$cores +
+								 fp06.dat$TDP +
+								 fp06.dat$voltage +
+								 fp06.dat$channel + 
+								 fp06.dat$FO4delay +
+								 fp06.dat$L1icache +
+								 fp06.dat$L2cache 
+								 );
+
+summary(fp06.lm)
