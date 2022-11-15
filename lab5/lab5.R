@@ -95,6 +95,19 @@ int06.dat <- extract_data("Int2006")
 fp06.dat <- extract_data("Fp2006")
 
 # starting lab 5
+xList <- list(.1,.2,.3,.4,.5,.6,.7,.8,.9)
+
+int95_1 <- 0
+int95_2 <- 0
+int95_3 <- 0
+int95_4 <- 0
+int95_5 <- 0
+int95_6 <- 0
+int95_7 <- 0
+int95_8 <- 0
+int95_9 <- 0
+
+yList <- list(int95_1,int95_2,int95_3,int95_4,int95_5,int95_6,int95_7,int95_8,int95_9)
 
 for (x in 1:9) {
 
@@ -121,28 +134,24 @@ deltaConcat <- c(deltaConcat, delta)
 # int95set[x] = t.test(deltaConcat, conf.level=0.95)
 
 # Find the mean and confidence interval for this vector of example data.
-ci_of_x = t.test(deltaConcat, conf.level=0.95)
-# Extract the mean of this vector from the confidence interval calculation
-ci_of_x$estimate
-# Show the two confidence intervals
-ci_of_x$conf.int
-# Extract the lower bound of the confidence interval
-ci_of_x$conf.int[1]
-# Extract the upper bound of the confidence interval
-ci_of_x$conf.int[2]
+print(x)
+yList[x] = t.test(deltaConcat, conf.level=0.95)
+# # Extract the mean of this vector from the confidence interval calculation
+# ci_of_x$estimate
+# # Show the two confidence intervals
+# ci_of_x$conf.int
+# # Extract the lower bound of the confidence interval
+# ci_of_x$conf.int[1]
+# # Extract the upper bound of the confidence interval
+# ci_of_x$conf.int[2]
 
-# # Make up some data for the plot.   
-# # (You will, of course, want to use your own data.) 
-# x <- 1:5 
-# y <- c(23, 14, 15, 45, 8) 
-# ylow <- y-2*x 
-# yhigh <- y+2.3*x 
-
-# Plot the data with error bars
-plot(x, y, ylim = range(c(ylow, yhigh)))
-arrows(x, ylow, x, yhigh, length=0.05, angle=90, code=3)
 
 }
+
+
+
+# plot(x, y, ylim = range(c(ylow, yhigh)))
+# arrows(x, ylow, x, yhigh, length=0.05, angle=90, code=3)
 
 # ---
 
