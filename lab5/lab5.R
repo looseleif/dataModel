@@ -95,76 +95,291 @@ int06.dat <- extract_data("Int2006")
 fp06.dat <- extract_data("Fp2006")
 
 # starting lab 5
-xList <- list(.1,.2,.3,.4,.5,.6,.7,.8,.9)
 
-int95_1 <- 0
-int95_2 <- 0
-int95_3 <- 0
-int95_4 <- 0
-int95_5 <- 0
-int95_6 <- 0
-int95_7 <- 0
-int95_8 <- 0
-int95_9 <- 0
+# PART 1
 
-yList <- list(int95_1,int95_2,int95_3,int95_4,int95_5,int95_6,int95_7,int95_8,int95_9)
+x <- list(.1,.2,.3,.4,.5,.6,.7,.8,.9)
 
-for (x in 1:9) {
+count <- 1
+
+for (val in x) {
 
 deltaConcat <- 0
-
-for (y in 1:100){
   
-rows <- nrow(int00.dat) 
-f <- x*0.1
-upper_bound <- floor(f * rows)
-permuted_int00.dat <- int00.dat[sample(rows) , ]
-train.dat <- permuted_int00.dat[1:upper_bound, ]
-test.dat <- permuted_int00.dat[(upper_bound+1): rows, ]
+for (y in 1:100){
 
-int00_new.lm <- lm(nperf ~ clock + cores, data = train.dat)
-predicted.dat <- predict(int00_new.lm, newdata=test.dat)
+rows <- nrow(int95.dat) 
+f <- count*0.1
+upper_bound <- floor(f * rows)
+permuted_int95.dat <- int95.dat[sample(rows) , ]
+train.dat <- permuted_int95.dat[1:upper_bound, ]
+test.dat <- permuted_int95.dat[(upper_bound+1): rows, ]
+
+int95_new.lm <- lm(int95.dat$nperf ~ int95.dat$clock + 
+                    								 int95.dat$cores, 
+                   data = train.dat)
+predicted.dat <- predict(int95_new.lm, newdata=test.dat)
 delta <- predicted.dat - test.dat$nperf
 
 deltaConcat <- c(deltaConcat, delta)
 
 }
 
-#plot(deltaConcat)
-# int95set[x] = t.test(deltaConcat, conf.level=0.95)
-
 # Find the mean and confidence interval for this vector of example data.
-print(x)
-yList[x] = t.test(deltaConcat, conf.level=0.95)
-# # Extract the mean of this vector from the confidence interval calculation
-# ci_of_x$estimate
-# # Show the two confidence intervals
-# ci_of_x$conf.int
-# # Extract the lower bound of the confidence interval
-# ci_of_x$conf.int[1]
-# # Extract the upper bound of the confidence interval
-# ci_of_x$conf.int[2]
+val = t.test(deltaConcat, conf.level=0.95)
+# Extract the mean of this vector from the confidence interval calculation
+y = val$estimate
+# Show the two confidence intervals
+val$conf.int
+# Extract the lower bound of the confidence interval
+ylow = val$conf.int[1]
+# Extract the upper bound of the confidence interval
+yhigh = val$conf.int[2]
 
+if(count==1){
+  
+  int95 <- plot(f, y, xlim = range(c(0, 1)), ylim = range(c(-1, 1)))
+  title(main="int95")
+  
+}
+
+points(f, y, xlim = range(c(0, 1)), ylim = range(c(-1, 1)))
+arrows(f, ylow, f, yhigh, length=0.05, angle=90, code=3)
+
+count <- count + 1
 
 }
 
+# int06
 
+count <- 1
 
-# plot(x, y, ylim = range(c(ylow, yhigh)))
-# arrows(x, ylow, x, yhigh, length=0.05, angle=90, code=3)
+for (val in x) {
+  
+  deltaConcat <- 0
+  
+  for (y in 1:100){
+    
+    rows <- nrow(int06.dat) 
+    f <- count*0.1
+    upper_bound <- floor(f * rows)
+    permuted_int06.dat <- int06.dat[sample(rows) , ]
+    train.dat <- permuted_int06.dat[1:upper_bound, ]
+    test.dat <- permuted_int06.dat[(upper_bound+1): rows, ]
+    
+    int06_new.lm <- lm(int06.dat$nperf ~ int06.dat$clock + 
+                         								 int06.dat$threads +
+                         								 int06.dat$cores +
+                         								 int06.dat$TDP +
+                         								 int06.dat$channel +
+                         								 int06.dat$FO4delay +
+                         								 int06.dat$L1icache +
+                         								 int06.dat$L2cache,
+                       data = train.dat)
+    predicted.dat <- predict(int06_new.lm, newdata=test.dat)
+    delta <- predicted.dat - test.dat$nperf
+    
+    deltaConcat <- c(deltaConcat, delta)
+    
+  }
+  
+  # Find the mean and confidence interval for this vector of example data.
+  val = t.test(deltaConcat, conf.level=0.95)
+  # Extract the mean of this vector from the confidence interval calculation
+  y = val$estimate
+  # Show the two confidence intervals
+  val$conf.int
+  # Extract the lower bound of the confidence interval
+  ylow = val$conf.int[1]
+  # Extract the upper bound of the confidence interval
+  yhigh = val$conf.int[2]
+  
+  if(count==1){
+    
+    int06 <- plot(f, y, xlim = range(c(0, 1)), ylim = range(c(-1, 1)))
+    title(main="int06")
+    
+  }
+  
+  points(f, y, xlim = range(c(0, 1)), ylim = range(c(-1, 1)))
+  arrows(f, ylow, f, yhigh, length=0.05, angle=90, code=3)
+  
+  count <- count + 1
+  
+}
 
-# ---
+# fp95
 
+count <- 1
 
-# 
-# # Make up some data for the plot.   
-# # (You will, of course, want to use your own data.) 
-# x <- 1:5 
-# y <- c(23, 14, 15, 45, 8) 
-# ylow <- y-2*x 
-# yhigh <- y+2.3*x 
-# 
-# # Plot the data with error bars 
-# plot(x, y, ylim = range(c(ylow, yhigh))) 
-# arrows(x, ylow, x, yhigh, length=0.05, angle=90, code=3)
+for (val in x) {
+  
+  deltaConcat <- 0
+  
+  for (y in 1:100){
+    
+    rows <- nrow(fp95.dat) 
+    f <- count*0.1
+    upper_bound <- floor(f * rows)
+    permuted_fp95.dat <- fp95.dat[sample(rows) , ]
+    train.dat <- permuted_fp95.dat[1:upper_bound, ]
+    test.dat <- permuted_fp95.dat[(upper_bound+1): rows, ]
+    
+    fp95_new.lm <- lm(fp95.dat$nperf ~ fp95.dat$clock + 
+                        fp95.dat$cores, 
+                      data = train.dat)
+    predicted.dat <- predict(fp95_new.lm, newdata=test.dat)
+    delta <- predicted.dat - test.dat$nperf
+    
+    deltaConcat <- c(deltaConcat, delta)
+    
+  }
+  
+  # Find the mean and confidence interval for this vector of example data.
+  val = t.test(deltaConcat, conf.level=0.95)
+  # Extract the mean of this vector from the confidence interval calculation
+  y = val$estimate
+  # Show the two confidence intervals
+  val$conf.int
+  # Extract the lower bound of the confidence interval
+  ylow = val$conf.int[1]
+  # Extract the upper bound of the confidence interval
+  yhigh = val$conf.int[2]
+  
+  if(count==1){
+    
+    fp95 <- plot(f, y, xlim = range(c(0, 1)), ylim = range(c(-1, 1)))
+    title(main="fp95")
+    
+  }
+  
+  points(f, y, xlim = range(c(0, 1)), ylim = range(c(-1, 1)))
+  arrows(f, ylow, f, yhigh, length=0.05, angle=90, code=3)
+  
+  count <- count + 1
+  
+}
+
+# fp06
+
+count <- 1
+
+for (val in x) {
+  
+  deltaConcat <- 0
+  
+  for (y in 1:100){
+    
+    rows <- nrow(fp06.dat) 
+    f <- count*0.1
+    upper_bound <- floor(f * rows)
+    permuted_fp06.dat <- fp06.dat[sample(rows) , ]
+    train.dat <- permuted_fp06.dat[1:upper_bound, ]
+    test.dat <- permuted_fp06.dat[(upper_bound+1): rows, ]
+    
+    fp06_new.lm <- lm(nperf ~ clock + cores, data = train.dat)
+    predicted.dat <- predict(fp06_new.lm, newdata=test.dat)
+    delta <- predicted.dat - test.dat$nperf
+    
+    deltaConcat <- c(deltaConcat, delta)
+    
+  }
+  
+  # Find the mean and confidence interval for this vector of example data.
+  val = t.test(deltaConcat, conf.level=0.95)
+  # Extract the mean of this vector from the confidence interval calculation
+  y = val$estimate
+  # Show the two confidence intervals
+  val$conf.int
+  # Extract the lower bound of the confidence interval
+  ylow = val$conf.int[1]
+  # Extract the upper bound of the confidence interval
+  yhigh = val$conf.int[2]
+  
+  if(count==1){
+    
+    fp06 <- plot(f, y, xlim = range(c(0, 1)), ylim = range(c(-1, 1)))
+    title(main="fp06")
+    
+  }
+  
+  points(f, y, xlim = range(c(0, 1)), ylim = range(c(-1, 1)))
+  arrows(f, ylow, f, yhigh, length=0.05, angle=90, code=3)
+  
+  count <- count + 1
+  
+}
+
+# PART 2
+
+#int95 into fp95
+
+count <- 1
+
+  deltaConcat <- 0
+  
+  for (y in 1:100){
+    
+    int95_new.lm <- lm(nperf ~ clock + cores, data = int95.dat)
+    predicted.dat <- predict(int95_new.lm, newdata=fp95.dat)
+    delta <- predicted.dat - test.dat$nperf
+    
+    deltaConcat <- c(deltaConcat, delta)
+    
+  }
+  
+  # Find the mean and confidence interval for this vector of example data.
+  val = t.test(deltaConcat, conf.level=0.95)
+  # Extract the mean of this vector from the confidence interval calculation
+  y = val$estimate
+  # Show the two confidence intervals
+  val$conf.int
+  # Extract the lower bound of the confidence interval
+  ylow = val$conf.int[1]
+  # Extract the upper bound of the confidence interval
+  yhigh = val$conf.int[2]
+  
+  print("LOL")
+  
+  print(val)
+  
+
+#int06 into fp06
+  
+  deltaConcat <- 0
+  
+  for (y in 1:100){
+    
+    int06_new.lm <- lm(int06.dat$nperf ~ int06.dat$clock + 
+                         								 int06.dat$threads +
+                         								 int06.dat$cores +
+                         								 int06.dat$TDP +
+                         								 int06.dat$channel +
+                         								 int06.dat$FO4delay +
+                         								 int06.dat$L1icache +
+                         								 int06.dat$L2cache,
+                       data = int06.dat)
+    predicted.dat <- predict(int06_new.lm, newdata=fp06.dat)
+    delta <- predicted.dat - test.dat$nperf
+    
+    deltaConcat <- c(deltaConcat, delta)
+    
+  }
+  
+  # Find the mean and confidence interval for this vector of example data.
+  val = t.test(deltaConcat, conf.level=0.95)
+  # Extract the mean of this vector from the confidence interval calculation
+  y = val$estimate
+  # Show the two confidence intervals
+  val$conf.int
+  # Extract the lower bound of the confidence interval
+  ylow = val$conf.int[1]
+  # Extract the upper bound of the confidence interval
+  yhigh = val$conf.int[2]
+  
+  print("LOL")
+  
+  print(val)
+  
+
 
