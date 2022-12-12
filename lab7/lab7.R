@@ -1,0 +1,114 @@
+# START LAB 7
+
+library(ggplot2)
+library(gganimate)
+library(gifski)
+library(dplyr)
+library(av)
+
+price_prediction_error <- function(price, bedrooms, bathroom, sqft_living, sqft_lot, grade, 
+                                   yr_built) {
+  house_info.dat <- data.frame(price, bedrooms, bathroom, sqft_living, sqft_lot, grade, yr_built)
+  rows <- nrow(house_info.dat) 
+  f <- 0.6
+  upper_bound <- floor(f * rows)
+  permuted_house.dat <- house_info.dat[sample(rows) , ]
+  train.dat <- permuted_house.dat[1:upper_bound, ]
+  test.dat <- permuted_house.dat[(upper_bound+1): rows, ]
+  house_new.lm <- lm(price ~ bedrooms+bathroom+sqft_living+sqft_lot+grade+yr_built, data = train.dat)
+  predicted.dat <- predict(house_new.lm, newdata=test.dat)
+  delta <- predicted.dat - test.dat$price
+  per_error <- (delta/test.dat$price)*100
+  
+}
+
+house_data <- read.csv("house_data.csv")
+
+data_by_zipcode <- house_data %>% 
+  group_by(zipcode) %>% 
+  summarize(
+    count = n(),
+    med_price = median(price),
+    mean_lat = mean(lat),
+    mean_long = mean(long),
+    med_yr_built = median(yr_built),
+    percent_error = abs(price_prediction_error(price, bedrooms, bathrooms, sqft_living, sqft_lot, grade, yr_built))
+  )
+
+
+# # PART 1 ---------------------
+
+rows <- nrow(house_data)
+f <- 0.6
+upper_bound <- floor(f * rows)
+permuted_house.dat <- house_data[sample(rows) , ]
+train.dat <- permuted_house.dat[1:upper_bound, ]
+test.dat <- permuted_house.dat[(upper_bound+1): rows, ]
+house_new.lm <- lm(price ~ bedrooms+bathrooms+sqft_living+sqft_lot+grade+yr_built, data = train.dat)
+predicted.dat <- predict(house_new.lm, newdata=test.dat)
+delta <- predicted.dat - test.dat$price
+per_error <- abs((delta/test.dat$price)*100)
+test.dat$per_error = per_error
+
+q <- 1.00
+
+rows <- nrow(test.dat)*q
+print(rows)
+sample_data <- test.dat[sample(rows) , ]
+
+which_state <- "washington"
+county_info <- map_data("county", region=which_state)
+base_map <- ggplot(data = county_info, mapping = aes(x = long, y = lat, group = group)) +
+  geom_polygon(color = "black", fill = "white") +
+  coord_quickmap() +
+  theme_void()
+
+min_long <- min(house_data$long)
+max_long <- max(house_data$long)
+min_lat <- min(house_data$lat)
+max_lat <- max(house_data$lat)
+num_years <- max(house_data$yr_built) - min(house_data$yr_built) + 1
+
+map_with_data <- base_map +
+  geom_point(data = sample_data, aes(x = long, y = lat, group=yr_built, color=per_error, size=price)) +
+  coord_quickmap(xlim = c(min_long, max_long),  ylim = c(min_lat, max_lat)) +
+  transition_time(yr_built) +
+  ggtitle('Zipcode: {floor(frame_time)}',
+          subtitle = 'Frame {frame} of {nframes}') +
+  shadow_mark() +
+  scale_color_gradient(low = "green", high = "red")
+
+animate(map_with_data, nframes = 1, fps = 0)
+
+
+# # PART 2 -------------------------
+
+animate(map_with_data, nframes = num_years, fps = 3, renderer = av_renderer())
+anim_save("100.mpg")
+
+# PART 3 -------------------------
+
+which_state <- "washington"
+county_info <- map_data("county", region=which_state)
+base_map <- ggplot(data = county_info, mapping = aes(x = long, y = lat, group = group)) +
+  geom_polygon(color = "black", fill = "white") +
+  coord_quickmap() +
+  theme_void()
+
+min_long <- min(data_by_zipcode$mean_long)
+max_long <- max(data_by_zipcode$mean_long)
+min_lat <- min(data_by_zipcode$mean_lat)
+max_lat <- max(data_by_zipcode$mean_lat)
+num_years <- max(data_by_zipcode$med_yr_built) - min(data_by_zipcode$med_yr_built) + 1
+
+map_with_data <- base_map +
+  geom_point(data = data_by_zipcode, aes(x = mean_long, y = mean_lat, group=med_yr_built, color=percent_error, size=med_price)) +
+  coord_quickmap(xlim = c(min_long, max_long),  ylim = c(min_lat, max_lat)) +
+  transition_time(med_yr_built) +
+  ggtitle('Zipcode: {floor(frame_time)}',
+        subtitle = 'Frame {frame} of {nframes}') +
+  shadow_mark() +
+  scale_color_gradient(low = "green", high = "red")
+
+animate(map_with_data, nframes = num_years, fps = 2, renderer = av_renderer())
+anim_save("p3.mpg")
