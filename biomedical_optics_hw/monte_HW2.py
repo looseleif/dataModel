@@ -39,9 +39,6 @@ def monte_carlo_simulation():
     mu_a = 15 # inverse cm
     mu_s = 85 # inverse cm
 
-    theta = 0
-    phi = 0
-
     s = 0
     g = 0
     d = 0.03 # cm
@@ -72,11 +69,12 @@ def monte_carlo_simulation():
             elif(z <= 0):
                 r = r + 1
                 loop = False
-            elif(random.uniform(0, 1) <= ((mu_a)*s)):
+            elif(random.uniform(0, 1) <= ((mu_a)/(mu_a+mu_s))):
                 a = a + 1
                 loop = False
             else:
                 theta = new_deflection(g)
+                phi = 2*3.1459*random.uniform(0,1)
                 mu_x, mu_y, mu_z = new_trajectory(theta, phi, mu_x, mu_y, mu_z)
     
     return a, r, t
