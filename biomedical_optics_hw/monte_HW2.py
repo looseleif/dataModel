@@ -83,7 +83,7 @@ absorb = 0
 reflect = 0
 transmit = 0
 
-for i in range(1):
+for i in range(5):
     
     absorb = 0
     reflect = 0
