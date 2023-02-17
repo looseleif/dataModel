@@ -30,18 +30,21 @@ def new_trajectory(t, p, mux, muy, muz):
 
 def monte_carlo_simulation():
 
-    a = 0
-    r = 0
-    t = 0
+    a = 0 # counter
+    r = 0 # counter
+    t = 0 # counter
     
-    n = 100000 # photons
+    n = 100000 # total photons
 
     mu_a = 15 # inverse cm
     mu_s = 85 # inverse cm
 
-    s = 0
-    g = 0
+    s = 0 # step size
+    g = 0 # au
     d = 0.03 # cm
+
+    # phi (azimuthal angle)
+    # theta (scattering angle)
     
     for j in range(n):
         
