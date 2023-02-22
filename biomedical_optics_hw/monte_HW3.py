@@ -1,6 +1,6 @@
 # Chase Anderson
-# Biomedical Optics HW2
-# monte_HW2.py
+# Biomedical Optics HW3
+# monte_HW3.py
 
 import random
 import numpy as np
@@ -77,21 +77,19 @@ def monte_carlo_simulation():
             elif(z <= 0):
                 r = r + w
                 loop = False
-            # elif(random.uniform(0, 1) <= ((mu_a)*s)):
-            #     a = a + 1
-            #     loop = False
             else:
                 a = a + w*(mu_a/(mu_a+mu_s))
                 w = w*(mu_s/(mu_a+mu_s))
                 
                 if(w<0.001):
                     
-                    if(random.uniform(0,1)<1/m):
+                    if(random.uniform(0,1)<(1/m)):
                         loop = False
                     else:
                         w = m*w
                 
                 theta = new_deflection(g)
+                phi = 2*3.1459*random.uniform(0,1)
                 mu_x, mu_y, mu_z = new_trajectory(theta, phi, mu_x, mu_y, mu_z)
     
     return a, r, t
@@ -100,7 +98,7 @@ absorb = 0
 reflect = 0
 transmit = 0
 
-for i in range(1):
+for i in range(5):
     
     absorb = 0
     reflect = 0
