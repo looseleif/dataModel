@@ -47,7 +47,7 @@ def monte_carlo_simulation():
     s = 0.0
     g = 0.75
     d = 0.02 # cm
-    m = 20 # roulette unit
+    m = 10 # roulette unit
     
     for j in range(n):
         
@@ -77,9 +77,9 @@ def monte_carlo_simulation():
             elif(z <= 0):
                 r = r + w
                 loop = False
-            elif(random.uniform(0, 1) <= ((mu_a)*s)):
-                a = a + 1
-                loop = False
+            # elif(random.uniform(0, 1) <= ((mu_a)*s)):
+            #     a = a + 1
+            #     loop = False
             else:
                 a = a + w*(mu_a/(mu_a+mu_s))
                 w = w*(mu_s/(mu_a+mu_s))
