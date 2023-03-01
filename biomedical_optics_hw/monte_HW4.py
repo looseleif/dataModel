@@ -34,6 +34,9 @@ def monte_carlo_simulation():
     r = 0
     t = 0
     
+    n1 = 1
+    n2 = 1.5
+    
     w = 1
     
     n = 100000 # photons
@@ -62,6 +65,21 @@ def monte_carlo_simulation():
         mu_x = 0
         mu_y = 0
         mu_z = 1
+        
+        Rsp = ((n1-n2)**2)/((n1+n2)**2)
+        
+        # critical angle calc
+        theta_critical = np.arcsin(n1/n2)
+        
+        # calculate incidence
+        theta_incidence = np.arccos(np.abs(mu_z))
+        
+        # internal reflectance
+        reflectance = (1/2)
+        
+        
+        r += Rsp*w
+        w = (1-Rsp)*w
          
         while(loop):
             
