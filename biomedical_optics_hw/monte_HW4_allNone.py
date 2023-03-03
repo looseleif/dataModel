@@ -34,12 +34,12 @@ def monte_carlo_simulation():
     r = 0
     t = 0
     
-    n1 = 1
-    n2 = 1.5
-    
     w = 1
     
-    n = 100000 # photons
+    n = 100 # photons
+    
+    n1 = 1
+    n2 = 1.5
 
     mu_a = 10 # inverse cm
     mu_s = 90 # inverse cm
@@ -48,13 +48,14 @@ def monte_carlo_simulation():
     phi = 0.0
 
     s = 0.0
-    g = 0.75
-    d = 0.02 # cm
+    g = 0.0
+    d = 0.20 # cm
     m = 10 # roulette unit
     
     for j in range(n):
         
         loop = True
+        move = True        
 
         w = 1
 
@@ -68,18 +69,8 @@ def monte_carlo_simulation():
         
         Rsp = ((n1-n2)**2)/((n1+n2)**2)
         
-        # critical angle calc
-        theta_critical = np.arcsin(n1/n2)
-        
-        # calculate incidence
-        theta_incidence = np.arccos(np.abs(mu_z))
-        
-        # internal reflectance
-        reflectance = (1/2)
-        
-        
-        r += Rsp*w
-        w = (1-Rsp)*w
+        r += Rsp
+        w = (1-Rsp)
          
         while(loop):
             
@@ -90,25 +81,53 @@ def monte_carlo_simulation():
             z = z + mu_z*s
             
             if(z >= d):
-                t = t + w
-                loop = False
-            elif(z <= 0):
-                r = r + w
-                loop = False
+                
+                theta_i = np.arccos(np.abs(mu_z))
+                theta_c = np.arcsin(n1/n2)
+                # theta_t = np.arcsin((n1/n2)*np.sin(theta_i))
+                # internal = (1/2)*(((np.sin(theta_i-theta_t)**2)/(np.sin(theta_i+theta_t)**2))+((np.tan(theta_i-theta_t)**2)/(np.tan(theta_i+theta_t)**2)))
+
+                if(theta_i<=theta_c):
+                
+                    t = t + w
+                    loop = False
+                
+                else:
+                
+                    z = 2*d-z
+                    mu_z = -mu_z
+                
+            elif(z < 0):
+                
+                theta_i = np.pi-np.arccos(np.abs(mu_z))
+                theta_c = np.arcsin(n1/n2)
+                #theta_t = np.arcsin((n1/n2)*np.sin(theta_i))
+                #internal = (1/2)*(((np.sin(theta_i-theta_t)**2)/(np.sin(theta_i+theta_t)**2))+((np.tan(theta_i-theta_t)**2)/(np.tan(theta_i+theta_t)**2)))
+                
+                if(theta_i<=theta_c):
+                
+                    r = r + w
+                    loop = False
+                
+                else:
+                    
+                    z = -z
+                    mu_z = -mu_z
+                
             else:
                 a = a + w*(mu_a/(mu_a+mu_s))
                 w = w*(mu_s/(mu_a+mu_s))
                 
-                if(w<0.001):
-                    
-                    if(random.uniform(0,1)<(1/m)):
-                        loop = False
-                    else:
-                        w = m*w
+            if(w<0.001):
                 
-                theta = new_deflection(g)
-                phi = 2*3.1459*random.uniform(0,1)
-                mu_x, mu_y, mu_z = new_trajectory(theta, phi, mu_x, mu_y, mu_z)
+                if(random.uniform(0,1)<(1/m)):
+                    loop = False
+                else:
+                    w = m*w
+            
+            theta = new_deflection(g)
+            phi = 2*3.1459*random.uniform(0,1)
+            mu_x, mu_y, mu_z = new_trajectory(theta, phi, mu_x, mu_y, mu_z)
     
     return a, r, t
 
